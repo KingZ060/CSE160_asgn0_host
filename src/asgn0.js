@@ -1,13 +1,19 @@
 // DrawRectangle.js
+let canvas;
+let ctx;
 function main() {
     // Retrieve <canvas> element
-    var canvas = document.getElementById('example');
+    canvas = document.getElementById('example');
     if (!canvas) {
         console.log('Failed to retrieve the <canvas> element');
         return;
     }
     // Get the rendering context for 2DCG
-    var ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.log('Failed to get the rendering context for 2d');
+        return;
+    }
     // Draw a blue rectangle
     ctx.fillStyle = 'rgba(0, 0, 0)';
     ctx.fillRect(0, 0, 400, 400);
@@ -16,22 +22,17 @@ function main() {
 }
 
 function drawVector(v, color) {
-    var ctx = document.getElementById('example').getContext('2d');
     let originX = ctx.canvas.width / 2;
     let originY = ctx.canvas.height / 2;
-    let endX = originX + v.elements[0] * 20;
-    let endY = originY - v.elements[1] * 20;
 
+    ctx.strokeStyle = color;
     ctx.beginPath();
     ctx.moveTo(originX, originY);
-    ctx.lineTo(endX, endY);
-    ctx.strokeStyle = color;
+    ctx.lineTo(originX + v.elements[0] * 20, originY - v.elements[1] * 20);
     ctx.stroke();
 }
 
 function handleDrawEvent() {
-    var canvas = document.getElementById('example');
-    var ctx = canvas.getContext('2d');
     var v1x = parseFloat(document.getElementById('V1XCoor').value);
     var v1y = parseFloat(document.getElementById('V1YCoor').value);
     var v2x = parseFloat(document.getElementById('V2XCoor').value);
@@ -68,8 +69,6 @@ function areaTriangle(v1, v2) {
 }
 
 function handleDrawOperationEvent() {
-    var canvas = document.getElementById('example');
-    var ctx = canvas.getContext('2d');
     var v1x = parseFloat(document.getElementById('V1XCoor').value);
     var v1y = parseFloat(document.getElementById('V1YCoor').value);
     var v2x = parseFloat(document.getElementById('V2XCoor').value);
@@ -112,11 +111,7 @@ function handleDrawOperationEvent() {
             break;
         
         case 'agl':
-            console.log("Angle between V1 and V2:", angleBetweenVectors(v1, v2));
-            break;
-
-        case 'are':
-            console.log("Area is:", areaTriangle(v1, v2));
+            console.log("Angle between V1 and V2 is: ", angleBetweenVectors(v1, v2));
             break;
 
         case 'are':
